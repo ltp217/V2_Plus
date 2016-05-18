@@ -1,0 +1,1698 @@
+*************************************
+------------- Call Depth ------------
+ Depth  Interrupt    Function
+-------------------------------------
+    0        N         ProgramStart
+    1        Y           _PWM2P_l
+    1        Y           _ALLInt
+C   2        Y             _delay_us
+C   2        Y             _battery_load_volt_sample
+C   3        Y               _delay_us
+    1        Y           _PWM1D_l
+    1        Y           _ALLInt
+C   2        Y             _delay_us
+C   2        Y             _battery_load_volt_sample
+C   3        Y               _delay_us
+    0        N         _main
+C   1        N           _mcu_init
+C   2        N             _clr_ram
+C   2        N             _gpio_init
+C   2        N             _adc_init
+C   2        N             _pwm_timer_init
+C   2        N             _pwm_set
+C   2        N             _led_status
+C   2        N             _led_blink
+C   3        N               _led_disp
+C   1        N           _pwm_set
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _pwm_set
+C   1        N           _led_ctrl_by_voltage
+C   1        N           _pwm_set
+C   1        N           _delay_us
+C   1        N           _delay_us
+C   1        N           _pwm_set
+C   1        N           _battery_volt_sample
+C   1        N           _pwm_set
+C   1        N           _led_ctrl_by_voltage
+C   1        N           _pwm_set
+C   1        N           _led_disp
+C   1        N           _pwm_set
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+C   1        N           _led_status
+C   1        N           _led_blink
+C   2        N             _led_disp
+-------------------------------------
+Stack Depth: 3
+****************************************
+------------- Free ROM Size ------------
+Start=0X10   , End=0X14   , Size=5
+Start=0X3F0  , End=0X7FF  , Size=1040
+----------------------------------------
+EM78P372N       |        ROM Size        
+----------------+-----------------------
+Total           |  2048 x 13 bits(100.0%)
+Used            |  1003 x 13 bits( 49.0%)
+Free            |  1045 x 13 bits( 51.0%)
+----------------------------------------
+*************************************
+-------------- Data Map -------------
+d -- Uninitialized data
+D -- Initialized data
+b -- Uninitialized bit data
+B -- Initialized bit data
+C -- C Register
+-------------- RAM Data -------------
+0x00  - - - - - - - - - - - - - - - - 
+0x10  - - - - - - - - - - - - - - - - 
+0x20  d d d d d d d d d d d d b d d d 
+0x30  d d d d d d d d d d d d d d d d 
+0x40  d d d d d d d d d d d C - - - - 
+0x50  - - - - - - - - - - - - - - - - 
+----------- Register Data -----------
+0x00  d d d b b b b b b b b d d d b b 
+0x10  d C C C C - - - - - - - - - - - 
+0x20  - - - - - b b b b d d d d - b b 
+-------------- IO Data --------------
+0x00  - - - - - d d d d d d d d d d d 
+0x10  - - - - - d d d d - - - - - - d 
+****************************************
+--------------- ROM Code ---------------
+    0x0000 :  JMP   0x01B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 84)
+  ;RSR = 0x10;               //BANK 0 的0x10寄存器
+    0x0001 :  MOV   A, @0x10    
+    0x0002 :  MOV   0x04, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 87)
+  ;R0 = 0;
+    0x0003 :  CLR   0x00        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 88)
+  ;RSR++;
+    0x0004 :  INC   0x04        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 89)
+  ;if (RSR == 0x40)
+    0x0005 :  MOV   A, 0x04     
+    0x0006 :  XOR   A, @0x40    
+    0x0007 :  JBS   0x03, 2     
+    0x0008 :  JMP   0x00B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 91)
+  ;RSR = 0x60;
+    0x0009 :  MOV   A, @0x60    
+    0x000A :  MOV   0x04, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 93)
+  ;}while(RSR < 0x80);
+    0x000B :  MOV   A, @0x80    
+    0x000C :  SUB   A, 0x04     
+    0x000D :  JBS   0x03, 0     
+    0x000E :  JMP   0x003       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 95)
+  ;}
+    0x000F :  RET               
+    0x0010 :  ADD   A, @0xFF    
+    0x0011 :  ADD   A, @0xFF    
+    0x0012 :  ADD   A, @0xFF    
+    0x0013 :  ADD   A, @0xFF    
+    0x0014 :  ADD   A, @0xFF    
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 191)
+  ;_asm{MOV A,0x2};
+    0x0015 :  MOV   A, 0x02     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 192)
+  ;}
+    0x0016 :  LJMP  0x000256    
+    0x0017 :  
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 196)
+  ;_asm{MOV A,0x2};
+    0x0018 :  MOV   A, 0x02     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 197)
+  ;}
+    0x0019 :  LJMP  0x000256    
+    0x001A :  
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 380)
+  ;mcu_init();
+    0x001B :  CALL  0x2EB       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 381)
+  ;g_time2s_flag=1;
+    0x001C :  MOV   A, @0x01    
+    0x001D :  BANK  @0x0        
+    0x001E :  MOV   0x2B, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 382)
+  ;temp_keyval = 1;
+    0x001F :  MOV   A, @0x01    
+    0x0020 :  BANK  @0x1        
+    0x0021 :  MOV   0x2A, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 383)
+  ;g_lock_flag = 0;
+    0x0022 :  BANK  @0x0        
+    0x0023 :  CLR   0x33        
+    0x0024 :  JMP   0x254       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 387)
+  ;g_cur_state = g_next_state;
+    0x0025 :  BANK  @0x0        
+    0x0026 :  MOV   A, 0x32     
+    0x0027 :  MOV   0x31, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 389)
+  ;switch(g_cur_state)
+    0x0028 :  MOV   A, 0x31     
+    0x0029 :  MOV   0x11, A     
+    0x002A :  MOV   A, 0x11     
+    0x002B :  XOR   A, @0x01    
+    0x002C :  JBC   0x03, 2     
+    0x002D :  JMP   0x03B       
+    0x002E :  MOV   A, 0x11     
+    0x002F :  XOR   A, @0x02    
+    0x0030 :  JBC   0x03, 2     
+    0x0031 :  JMP   0x0C6       
+    0x0032 :  MOV   A, 0x11     
+    0x0033 :  XOR   A, @0x04    
+    0x0034 :  JBC   0x03, 2     
+    0x0035 :  JMP   0x133       
+    0x0036 :  MOV   A, 0x11     
+    0x0037 :  XOR   A, @0x08    
+    0x0038 :  JBC   0x03, 2     
+    0x0039 :  JMP   0x169       
+    0x003A :  JMP   0x1A0       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 392)
+  ;if((g_keypress_maxtime > 0)&&(g_lock_flag == 0x00))
+    0x003B :  BANK  @0x0        
+    0x003C :  MOV   0x2F, 0x2F  
+    0x003D :  JBC   0x03, 2     
+    0x003E :  JMP   0x0B6       
+    0x003F :  MOV   0x33, 0x33  
+    0x0040 :  JBS   0x03, 2     
+    0x0041 :  JMP   0x0B6       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 394)
+  ;if(g_keypress_maxtime >= 200)          //判断吸烟超过10s情况
+    0x0042 :  MOV   A, @0xC8    
+    0x0043 :  SUB   A, 0x2F     
+    0x0044 :  JBS   0x03, 0     
+    0x0045 :  JMP   0x053       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 396)
+  ;if (g_keypress_maxtime == 200)
+    0x0046 :  MOV   A, 0x2F     
+    0x0047 :  XOR   A, @0xC8    
+    0x0048 :  JBS   0x03, 2     
+    0x0049 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 398)
+  ;pwm_set(MOS_OFF);
+    0x004A :  MOV   A, @0x9C    
+    0x004B :  BANK  @0x1        
+    0x004C :  MOV   0x24, A     
+    0x004D :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 399)
+  ;led_blink(9);       //闪烁8次，避免初始状态灯亮时少一次状态
+    0x004E :  MOV   A, @0x09    
+    0x004F :  BANK  @0x1        
+    0x0050 :  MOV   0x25, A     
+    0x0051 :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 402)
+  ;break;
+    0x0052 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 405)
+  ;g_adc_flag = 0;
+    0x0053 :  BANK  @0x0        
+    0x0054 :  CLR   0x34        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 406)
+  ;while(g_adc_flag == 0);
+    0x0055 :  BANK  @0x0        
+    0x0056 :  MOV   0x34, 0x34  
+    0x0057 :  JBC   0x03, 2     
+    0x0058 :  JMP   0x055       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 408)
+  ;if(g_load_volt < SHORT_LOAD_VOLT)         //检测雾化器短路故障
+    0x0059 :  MOV   A, @0x04    
+    0x005A :  SUB   A, 0x22     
+    0x005B :  JBS   0x03, 2     
+    0x005C :  JMP   0x05F       
+    0x005D :  MOV   A, @0x00    
+    0x005E :  SUB   A, 0x21     
+    0x005F :  JBC   0x03, 0     
+    0x0060 :  JMP   0x06B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 410)
+  ;pwm_set(MOS_OFF);
+    0x0061 :  MOV   A, @0x9C    
+    0x0062 :  BANK  @0x1        
+    0x0063 :  MOV   0x24, A     
+    0x0064 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 411)
+  ;g_fault_state = 0x08;
+    0x0065 :  MOV   A, @0x08    
+    0x0066 :  BANK  @0x0        
+    0x0067 :  MOV   0x20, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 412)
+  ;g_next_state = 0x02;
+    0x0068 :  MOV   A, @0x02    
+    0x0069 :  MOV   0x32, A     
+    0x006A :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 416)
+  ;if(g_battery_volt <= VBAT37)
+    0x006B :  BANK  @0x0        
+    0x006C :  MOV   A, 0x24     
+    0x006D :  SUB   A, @0x09    
+    0x006E :  JBS   0x03, 2     
+    0x006F :  JMP   0x072       
+    0x0070 :  MOV   A, 0x23     
+    0x0071 :  SUB   A, @0xDD    
+    0x0072 :  JBS   0x03, 0     
+    0x0073 :  JMP   0x079       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 418)
+  ;pwm_set(MOS_ON);
+    0x0074 :  MOV   A, @0x01    
+    0x0075 :  BANK  @0x1        
+    0x0076 :  MOV   0x24, A     
+    0x0077 :  CALL  0x33A       
+    0x0078 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 420)
+  ;else if (g_battery_volt <= VBAT38)
+    0x0079 :  BANK  @0x0        
+    0x007A :  MOV   A, 0x24     
+    0x007B :  SUB   A, @0x0A    
+    0x007C :  JBS   0x03, 2     
+    0x007D :  JMP   0x080       
+    0x007E :  MOV   A, 0x23     
+    0x007F :  SUB   A, @0x22    
+    0x0080 :  JBS   0x03, 0     
+    0x0081 :  JMP   0x087       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 422)
+  ;pwm_set(MOS_37_38);
+    0x0082 :  MOV   A, @0x05    
+    0x0083 :  BANK  @0x1        
+    0x0084 :  MOV   0x24, A     
+    0x0085 :  CALL  0x33A       
+    0x0086 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 424)
+  ;else if(g_battery_volt <= VBAT39)
+    0x0087 :  BANK  @0x0        
+    0x0088 :  MOV   A, 0x24     
+    0x0089 :  SUB   A, @0x0A    
+    0x008A :  JBS   0x03, 2     
+    0x008B :  JMP   0x08E       
+    0x008C :  MOV   A, 0x23     
+    0x008D :  SUB   A, @0x66    
+    0x008E :  JBS   0x03, 0     
+    0x008F :  JMP   0x095       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 426)
+  ;pwm_set(MOS_38_39);
+    0x0090 :  MOV   A, @0x0D    
+    0x0091 :  BANK  @0x1        
+    0x0092 :  MOV   0x24, A     
+    0x0093 :  CALL  0x33A       
+    0x0094 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 428)
+  ;else if(g_battery_volt <= VBAT40)
+    0x0095 :  BANK  @0x0        
+    0x0096 :  MOV   A, 0x24     
+    0x0097 :  SUB   A, @0x0A    
+    0x0098 :  JBS   0x03, 2     
+    0x0099 :  JMP   0x09C       
+    0x009A :  MOV   A, 0x23     
+    0x009B :  SUB   A, @0xAB    
+    0x009C :  JBS   0x03, 0     
+    0x009D :  JMP   0x0A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 430)
+  ;pwm_set(MOS_39_40);
+    0x009E :  MOV   A, @0x13    
+    0x009F :  BANK  @0x1        
+    0x00A0 :  MOV   0x24, A     
+    0x00A1 :  CALL  0x33A       
+    0x00A2 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 432)
+  ;else if(g_battery_volt <= VBAT41)
+    0x00A3 :  BANK  @0x0        
+    0x00A4 :  MOV   A, 0x24     
+    0x00A5 :  SUB   A, @0x0A    
+    0x00A6 :  JBS   0x03, 2     
+    0x00A7 :  JMP   0x0AA       
+    0x00A8 :  MOV   A, 0x23     
+    0x00A9 :  SUB   A, @0xEF    
+    0x00AA :  JBS   0x03, 0     
+    0x00AB :  JMP   0x0B1       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 434)
+  ;pwm_set(MOS_40_41);
+    0x00AC :  MOV   A, @0x1B    
+    0x00AD :  BANK  @0x1        
+    0x00AE :  MOV   0x24, A     
+    0x00AF :  CALL  0x33A       
+    0x00B0 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 438)
+  ;pwm_set(MOS_41_42);
+    0x00B1 :  MOV   A, @0x21    
+    0x00B2 :  BANK  @0x1        
+    0x00B3 :  MOV   0x24, A     
+    0x00B4 :  CALL  0x33A       
+    0x00B5 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 444)
+  ;if(g_time2s_flag == 1)
+    0x00B6 :  BANK  @0x0        
+    0x00B7 :  MOV   A, 0x2B     
+    0x00B8 :  XOR   A, @0x01    
+    0x00B9 :  JBS   0x03, 2     
+    0x00BA :  JMP   0x0BE       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 446)
+  ;g_next_state = 0x08;
+    0x00BB :  MOV   A, @0x08    
+    0x00BC :  MOV   0x32, A     
+    0x00BD :  JMP   0x0C1       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 450)
+  ;g_next_state = 0x01;
+    0x00BE :  MOV   A, @0x01    
+    0x00BF :  BANK  @0x0        
+    0x00C0 :  MOV   0x32, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 454)
+  ;g_led_r = 0;
+    0x00C1 :  BANK  @0x0        
+    0x00C2 :  BC    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 455)
+  ;g_led_g = 0;
+    0x00C3 :  BC    0x2C, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 456)
+  ;g_led_b = 0;
+    0x00C4 :  BC    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 459)
+  ;break;
+    0x00C5 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 462)
+  ;if(g_fault_state == 0x02)       //过充保护
+    0x00C6 :  BANK  @0x0        
+    0x00C7 :  MOV   A, 0x20     
+    0x00C8 :  XOR   A, @0x02    
+    0x00C9 :  JBS   0x03, 2     
+    0x00CA :  JMP   0x0DB       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 464)
+  ;led_status(0,0,1);
+    0x00CB :  MOV   A, @0x01    
+    0x00CC :  BANK  @0x1        
+    0x00CD :  MOV   0x29, A     
+    0x00CE :  MOV   A, @0x00    
+    0x00CF :  MOV   0x28, A     
+    0x00D0 :  MOV   A, @0x00    
+    0x00D1 :  MOV   0x27, A     
+    0x00D2 :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 465)
+  ;led_blink(20);
+    0x00D3 :  MOV   A, @0x14    
+    0x00D4 :  BANK  @0x1        
+    0x00D5 :  MOV   0x25, A     
+    0x00D6 :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 466)
+  ;g_next_state = 0x8;
+    0x00D7 :  MOV   A, @0x08    
+    0x00D8 :  BANK  @0x0        
+    0x00D9 :  MOV   0x32, A     
+    0x00DA :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 468)
+  ;else if(g_fault_state == 0x04)  //低压保护
+    0x00DB :  BANK  @0x0        
+    0x00DC :  MOV   A, 0x20     
+    0x00DD :  XOR   A, @0x04    
+    0x00DE :  JBS   0x03, 2     
+    0x00DF :  JMP   0x0F0       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 470)
+  ;led_status(1,0,0);
+    0x00E0 :  MOV   A, @0x00    
+    0x00E1 :  BANK  @0x1        
+    0x00E2 :  MOV   0x29, A     
+    0x00E3 :  MOV   A, @0x00    
+    0x00E4 :  MOV   0x28, A     
+    0x00E5 :  MOV   A, @0x01    
+    0x00E6 :  MOV   0x27, A     
+    0x00E7 :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 471)
+  ;led_blink(10);
+    0x00E8 :  MOV   A, @0x0A    
+    0x00E9 :  BANK  @0x1        
+    0x00EA :  MOV   0x25, A     
+    0x00EB :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 472)
+  ;g_next_state = 0x8;
+    0x00EC :  MOV   A, @0x08    
+    0x00ED :  BANK  @0x0        
+    0x00EE :  MOV   0x32, A     
+    0x00EF :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 474)
+  ;else if(g_fault_state==0x08)    //发热丝短路保护
+    0x00F0 :  BANK  @0x0        
+    0x00F1 :  MOV   A, 0x20     
+    0x00F2 :  XOR   A, @0x08    
+    0x00F3 :  JBS   0x03, 2     
+    0x00F4 :  JMP   0x105       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 476)
+  ;led_status(1,1,1);
+    0x00F5 :  MOV   A, @0x01    
+    0x00F6 :  BANK  @0x1        
+    0x00F7 :  MOV   0x29, A     
+    0x00F8 :  MOV   A, @0x01    
+    0x00F9 :  MOV   0x28, A     
+    0x00FA :  MOV   A, @0x01    
+    0x00FB :  MOV   0x27, A     
+    0x00FC :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 477)
+  ;led_blink(3);
+    0x00FD :  MOV   A, @0x03    
+    0x00FE :  BANK  @0x1        
+    0x00FF :  MOV   0x25, A     
+    0x0100 :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 478)
+  ;g_next_state = 0x8;
+    0x0101 :  MOV   A, @0x08    
+    0x0102 :  BANK  @0x0        
+    0x0103 :  MOV   0x32, A     
+    0x0104 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 480)
+  ;else if(g_fault_state == 0x10)  //充电器短路保护
+    0x0105 :  BANK  @0x0        
+    0x0106 :  MOV   A, 0x20     
+    0x0107 :  XOR   A, @0x10    
+    0x0108 :  JBS   0x03, 2     
+    0x0109 :  JMP   0x11A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 482)
+  ;led_status(1,1,1);
+    0x010A :  MOV   A, @0x01    
+    0x010B :  BANK  @0x1        
+    0x010C :  MOV   0x29, A     
+    0x010D :  MOV   A, @0x01    
+    0x010E :  MOV   0x28, A     
+    0x010F :  MOV   A, @0x01    
+    0x0110 :  MOV   0x27, A     
+    0x0111 :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 483)
+  ;led_blink(6);
+    0x0112 :  MOV   A, @0x06    
+    0x0113 :  BANK  @0x1        
+    0x0114 :  MOV   0x25, A     
+    0x0115 :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 484)
+  ;g_next_state = 0x8;
+    0x0116 :  MOV   A, @0x08    
+    0x0117 :  BANK  @0x0        
+    0x0118 :  MOV   0x32, A     
+    0x0119 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 486)
+  ;else if(g_fault_state==0x20)    //过渡进入充电状态
+    0x011A :  BANK  @0x0        
+    0x011B :  MOV   A, 0x20     
+    0x011C :  XOR   A, @0x20    
+    0x011D :  JBS   0x03, 2     
+    0x011E :  JMP   0x12F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 488)
+  ;led_status(1,0,1);
+    0x011F :  MOV   A, @0x01    
+    0x0120 :  BANK  @0x1        
+    0x0121 :  MOV   0x29, A     
+    0x0122 :  MOV   A, @0x00    
+    0x0123 :  MOV   0x28, A     
+    0x0124 :  MOV   A, @0x01    
+    0x0125 :  MOV   0x27, A     
+    0x0126 :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 489)
+  ;led_blink(3);
+    0x0127 :  MOV   A, @0x03    
+    0x0128 :  BANK  @0x1        
+    0x0129 :  MOV   0x25, A     
+    0x012A :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 490)
+  ;g_next_state = 0x4;
+    0x012B :  MOV   A, @0x04    
+    0x012C :  BANK  @0x0        
+    0x012D :  MOV   0x32, A     
+    0x012E :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 494)
+  ;g_next_state = 0x01;
+    0x012F :  MOV   A, @0x01    
+    0x0130 :  BANK  @0x0        
+    0x0131 :  MOV   0x32, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 497)
+  ;break;
+    0x0132 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 500)
+  ;g_adc_flag = 0;
+    0x0133 :  BANK  @0x0        
+    0x0134 :  CLR   0x34        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 501)
+  ;while(g_adc_flag == 0);
+    0x0135 :  BANK  @0x0        
+    0x0136 :  MOV   0x34, 0x34  
+    0x0137 :  JBC   0x03, 2     
+    0x0138 :  JMP   0x135       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 502)
+  ;if(g_load_volt < SHORT_LOAD_VOLT)
+    0x0139 :  MOV   A, @0x04    
+    0x013A :  SUB   A, 0x22     
+    0x013B :  JBS   0x03, 2     
+    0x013C :  JMP   0x13F       
+    0x013D :  MOV   A, @0x00    
+    0x013E :  SUB   A, 0x21     
+    0x013F :  JBC   0x03, 0     
+    0x0140 :  JMP   0x14B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 504)
+  ;pwm_set(MOS_OFF);
+    0x0141 :  MOV   A, @0x9C    
+    0x0142 :  BANK  @0x1        
+    0x0143 :  MOV   0x24, A     
+    0x0144 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 505)
+  ;g_fault_state = 0x10;
+    0x0145 :  MOV   A, @0x10    
+    0x0146 :  BANK  @0x0        
+    0x0147 :  MOV   0x20, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 506)
+  ;g_next_state = 0x02;
+    0x0148 :  MOV   A, @0x02    
+    0x0149 :  MOV   0x32, A     
+    0x014A :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 508)
+  ;else if(g_load_volt > CHARGE_BAT_VOLT_TH)
+    0x014B :  BANK  @0x0        
+    0x014C :  MOV   A, 0x22     
+    0x014D :  SUB   A, @0x0B    
+    0x014E :  JBS   0x03, 2     
+    0x014F :  JMP   0x152       
+    0x0150 :  MOV   A, 0x21     
+    0x0151 :  SUB   A, @0x11    
+    0x0152 :  JBC   0x03, 0     
+    0x0153 :  JMP   0x15E       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 510)
+  ;pwm_set(MOS_OFF);
+    0x0154 :  MOV   A, @0x9C    
+    0x0155 :  BANK  @0x1        
+    0x0156 :  MOV   0x24, A     
+    0x0157 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 511)
+  ;g_fault_state = 0x02;
+    0x0158 :  MOV   A, @0x02    
+    0x0159 :  BANK  @0x0        
+    0x015A :  MOV   0x20, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 512)
+  ;g_next_state = 0x02;
+    0x015B :  MOV   A, @0x02    
+    0x015C :  MOV   0x32, A     
+    0x015D :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 516)
+  ;pwm_set(MOS_ON);
+    0x015E :  MOV   A, @0x01    
+    0x015F :  BANK  @0x1        
+    0x0160 :  MOV   0x24, A     
+    0x0161 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 518)
+  ;led_ctrl_by_voltage(g_load_volt);
+    0x0162 :  BANK  @0x0        
+    0x0163 :  MOV   A, 0x21     
+    0x0164 :  MOV   0x3D, A     
+    0x0165 :  MOV   A, 0x22     
+    0x0166 :  MOV   0x3E, A     
+    0x0167 :  CALL  0x3B7       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 520)
+  ;break;
+    0x0168 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 523)
+  ;pwm_set(MOS_OFF);
+    0x0169 :  MOV   A, @0x9C    
+    0x016A :  BANK  @0x1        
+    0x016B :  MOV   0x24, A     
+    0x016C :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 524)
+  ;g_led_r = 0;
+    0x016D :  BANK  @0x0        
+    0x016E :  BC    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 525)
+  ;g_led_g = 0;
+    0x016F :  BC    0x2C, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 526)
+  ;g_led_b = 0;
+    0x0170 :  BC    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 527)
+  ;P70 = 1;                                //灭红灯
+    0x0171 :  BC    0x04, 7     
+    0x0172 :  BS    0x07, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 528)
+  ;P71 = 1;                                //灭绿灯
+    0x0173 :  BS    0x07, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 529)
+  ;P51 = 0;                                //灭蓝灯
+    0x0174 :  BC    0x05, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 530)
+  ;ISR1 = 0X02;                            //使能PORT5状态改变唤醒功能
+    0x0175 :  MOV   A, @0x02    
+    0x0176 :  MOV   0x0E, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 531)
+  ;PORT5 = PORT5;                          //读取PORT5状态
+    0x0177 :  MOV   0x05, 0x05  
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 532)
+  ;IDLE = 0;
+    0x0178 :  BS    0x04, 7     
+    0x0179 :  BC    0x0F, 4     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 533)
+  ;delay_us(2);
+    0x017A :  MOV   A, @0x02    
+    0x017B :  MOV   0x3C, A     
+    0x017C :  CALL  0x2A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 534)
+  ;SLEP();                                 //进入睡眠
+    0x017D :  SLEP              
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 535)
+  ;delay_us(20);
+    0x017E :  MOV   A, @0x14    
+    0x017F :  BANK  @0x0        
+    0x0180 :  MOV   0x3C, A     
+    0x0181 :  CALL  0x2A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 537)
+  ;g_time1ms_cnt = 0;
+    0x0182 :  BANK  @0x0        
+    0x0183 :  CLR   0x26        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 538)
+  ;g_time50ms_cnt = 0;
+    0x0184 :  CLR   0x27        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 539)
+  ;g_time200ms_cnt = 0;
+    0x0185 :  CLR   0x29        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 540)
+  ;g_led_light_times = 0;
+    0x0186 :  CLR   0x2D        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 541)
+  ;g_keypress_maxtime = 0;
+    0x0187 :  CLR   0x2F        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 543)
+  ;g_adc_flag = 0;
+    0x0188 :  CLR   0x34        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 544)
+  ;while(g_adc_flag == 0);
+    0x0189 :  BANK  @0x0        
+    0x018A :  MOV   0x34, 0x34  
+    0x018B :  JBC   0x03, 2     
+    0x018C :  JMP   0x189       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 546)
+  ;if(g_load_volt < WAKEUP_LOAD_VOLT)       //由按键唤醒，进入吸烟状态
+    0x018D :  MOV   A, @0x01    
+    0x018E :  SUB   A, 0x22     
+    0x018F :  JBS   0x03, 2     
+    0x0190 :  JMP   0x193       
+    0x0191 :  MOV   A, @0x55    
+    0x0192 :  SUB   A, 0x21     
+    0x0193 :  JBC   0x03, 0     
+    0x0194 :  JMP   0x199       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 548)
+  ;g_next_state = 0x01;
+    0x0195 :  MOV   A, @0x01    
+    0x0196 :  BANK  @0x0        
+    0x0197 :  MOV   0x32, A     
+    0x0198 :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 552)
+  ;g_fault_state = 0x20;
+    0x0199 :  MOV   A, @0x20    
+    0x019A :  BANK  @0x0        
+    0x019B :  MOV   0x20, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 553)
+  ;g_next_state = 0x02;
+    0x019C :  MOV   A, @0x02    
+    0x019D :  MOV   0x32, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 554)
+  ;g_lock_flag = 0x0;
+    0x019E :  CLR   0x33        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 556)
+  ;break;
+    0x019F :  JMP   0x1A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 559)
+  ;g_next_state = 0x08;
+    0x01A0 :  MOV   A, @0x08    
+    0x01A1 :  BANK  @0x0        
+    0x01A2 :  MOV   0x32, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 563)
+  ;if((g_time50ms_flag == 1)||(g_cur_state == 0x08))           //key处理
+    0x01A3 :  BANK  @0x0        
+    0x01A4 :  MOV   A, 0x28     
+    0x01A5 :  XOR   A, @0x01    
+    0x01A6 :  JBC   0x03, 2     
+    0x01A7 :  JMP   0x1AC       
+    0x01A8 :  MOV   A, 0x31     
+    0x01A9 :  XOR   A, @0x08    
+    0x01AA :  JBS   0x03, 2     
+    0x01AB :  JMP   0x21B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 565)
+  ;g_time50ms_flag = 0;
+    0x01AC :  BANK  @0x0        
+    0x01AD :  CLR   0x28        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 566)
+  ;g_keyval = P50;
+    0x01AE :  MOV   A, @0x00    
+    0x01AF :  BC    0x04, 7     
+    0x01B0 :  JBC   0x05, 0     
+    0x01B1 :  ADD   A, @0x01    
+    0x01B2 :  MOV   0x25, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 568)
+  ;if(((temp_keyval == g_keyval)&&(g_keyval == 0))||(g_cur_state == 0x08))
+    0x01B3 :  MOV   A, 0x25     
+    0x01B4 :  MOV   0x11, A     
+    0x01B5 :  BANK  @0x1        
+    0x01B6 :  MOV   A, 0x2A     
+    0x01B7 :  XOR   A, 0x11     
+    0x01B8 :  JBS   0x03, 2     
+    0x01B9 :  JMP   0x1BD       
+    0x01BA :  MOV   0x11, 0x11  
+    0x01BB :  JBC   0x03, 2     
+    0x01BC :  JMP   0x1C2       
+    0x01BD :  BANK  @0x0        
+    0x01BE :  MOV   A, 0x31     
+    0x01BF :  XOR   A, @0x08    
+    0x01C0 :  JBS   0x03, 2     
+    0x01C1 :  JMP   0x203       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 570)
+  ;if(g_keypress_maxtime == 255)
+    0x01C2 :  BANK  @0x0        
+    0x01C3 :  MOV   A, 0x2F     
+    0x01C4 :  XOR   A, @0xFF    
+    0x01C5 :  JBS   0x03, 2     
+    0x01C6 :  JMP   0x1CA       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 572)
+  ;g_keypress_maxtime = 255;
+    0x01C7 :  MOV   A, @0xFF    
+    0x01C8 :  MOV   0x2F, A     
+    0x01C9 :  JMP   0x1CC       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 577)
+  ;g_keypress_maxtime++;
+    0x01CA :  BANK  @0x0        
+    0x01CB :  INC   0x2F        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 581)
+  ;if ((g_lock_flag == 0x00) && (g_keypress_maxtime == 1))
+    0x01CC :  BANK  @0x0        
+    0x01CD :  MOV   0x33, 0x33  
+    0x01CE :  JBS   0x03, 2     
+    0x01CF :  JMP   0x1FC       
+    0x01D0 :  MOV   A, 0x2F     
+    0x01D1 :  XOR   A, @0x01    
+    0x01D2 :  JBS   0x03, 2     
+    0x01D3 :  JMP   0x1FC       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 583)
+  ;if ((g_cur_state == 0x08)||(g_cur_state == 0x01))
+    0x01D4 :  MOV   A, 0x31     
+    0x01D5 :  MOV   0x11, A     
+    0x01D6 :  MOV   A, 0x11     
+    0x01D7 :  XOR   A, @0x08    
+    0x01D8 :  JBC   0x03, 2     
+    0x01D9 :  JMP   0x1DE       
+    0x01DA :  MOV   A, 0x11     
+    0x01DB :  XOR   A, @0x01    
+    0x01DC :  JBS   0x03, 2     
+    0x01DD :  JMP   0x1FC       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 585)
+  ;pwm_set(MOS_ON);
+    0x01DE :  MOV   A, @0x01    
+    0x01DF :  BANK  @0x1        
+    0x01E0 :  MOV   0x24, A     
+    0x01E1 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 587)
+  ;battery_volt_sample();
+    0x01E2 :  CALL  0x3DC       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 589)
+  ;if(g_battery_volt < LOW_BAT_VOLT)        //检测电池低压故障
+    0x01E3 :  MOV   A, @0x08    
+    0x01E4 :  BANK  @0x0        
+    0x01E5 :  SUB   A, 0x24     
+    0x01E6 :  JBS   0x03, 2     
+    0x01E7 :  JMP   0x1EA       
+    0x01E8 :  MOV   A, @0x88    
+    0x01E9 :  SUB   A, 0x23     
+    0x01EA :  JBC   0x03, 0     
+    0x01EB :  JMP   0x1F6       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 591)
+  ;pwm_set(MOS_OFF);
+    0x01EC :  MOV   A, @0x9C    
+    0x01ED :  BANK  @0x1        
+    0x01EE :  MOV   0x24, A     
+    0x01EF :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 592)
+  ;g_fault_state = 0x04;
+    0x01F0 :  MOV   A, @0x04    
+    0x01F1 :  BANK  @0x0        
+    0x01F2 :  MOV   0x20, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 593)
+  ;g_next_state = 0x02;
+    0x01F3 :  MOV   A, @0x02    
+    0x01F4 :  MOV   0x32, A     
+    0x01F5 :  JMP   0x1FC       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 597)
+  ;led_ctrl_by_voltage(g_battery_volt);
+    0x01F6 :  BANK  @0x0        
+    0x01F7 :  MOV   A, 0x23     
+    0x01F8 :  MOV   0x3D, A     
+    0x01F9 :  MOV   A, 0x24     
+    0x01FA :  MOV   0x3E, A     
+    0x01FB :  CALL  0x3B7       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 603)
+  ;if(g_keypress_times == 0)
+    0x01FC :  BANK  @0x0        
+    0x01FD :  MOV   0x2E, 0x2E  
+    0x01FE :  JBS   0x03, 2     
+    0x01FF :  JMP   0x217       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 605)
+  ;g_time2s_start = 1;
+    0x0200 :  MOV   A, @0x01    
+    0x0201 :  MOV   0x35, A     
+    0x0202 :  JMP   0x217       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 608)
+  ;else if((temp_keyval == 0)&&(g_keyval == 1))
+    0x0203 :  BANK  @0x1        
+    0x0204 :  MOV   0x2A, 0x2A  
+    0x0205 :  JBS   0x03, 2     
+    0x0206 :  JMP   0x217       
+    0x0207 :  BANK  @0x0        
+    0x0208 :  MOV   A, 0x25     
+    0x0209 :  XOR   A, @0x01    
+    0x020A :  JBS   0x03, 2     
+    0x020B :  JMP   0x217       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 610)
+  ;if( g_keypress_maxtime < 40)
+    0x020C :  MOV   A, @0x28    
+    0x020D :  SUB   A, 0x2F     
+    0x020E :  JBC   0x03, 0     
+    0x020F :  JMP   0x211       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 612)
+  ;g_keypress_times++;
+    0x0210 :  INC   0x2E        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 616)
+  ;pwm_set(MOS_OFF);
+    0x0211 :  MOV   A, @0x9C    
+    0x0212 :  BANK  @0x1        
+    0x0213 :  MOV   0x24, A     
+    0x0214 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 618)
+  ;g_keypress_maxtime = 0;
+    0x0215 :  BANK  @0x0        
+    0x0216 :  CLR   0x2F        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 621)
+  ;temp_keyval = g_keyval;
+    0x0217 :  BANK  @0x0        
+    0x0218 :  MOV   A, 0x25     
+    0x0219 :  BANK  @0x1        
+    0x021A :  MOV   0x2A, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 624)
+  ;if(g_time200ms_flag == 1)           //指示灯处理
+    0x021B :  BANK  @0x0        
+    0x021C :  MOV   A, 0x2A     
+    0x021D :  XOR   A, @0x01    
+    0x021E :  JBS   0x03, 2     
+    0x021F :  JMP   0x222       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 626)
+  ;g_time200ms_flag = 0;
+    0x0220 :  CLR   0x2A        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 627)
+  ;led_disp();
+    0x0221 :  CALL  0x374       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 630)
+  ;if(g_time2s_flag == 1)
+    0x0222 :  BANK  @0x0        
+    0x0223 :  MOV   A, 0x2B     
+    0x0224 :  XOR   A, @0x01    
+    0x0225 :  JBS   0x03, 2     
+    0x0226 :  JMP   0x254       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 632)
+  ;g_time2s_flag = 0;
+    0x0227 :  CLR   0x2B        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 633)
+  ;if(g_keypress_times >= 5)
+    0x0228 :  MOV   A, @0x05    
+    0x0229 :  SUB   A, 0x2E     
+    0x022A :  JBS   0x03, 0     
+    0x022B :  JMP   0x252       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 635)
+  ;pwm_set(MOS_OFF);
+    0x022C :  MOV   A, @0x9C    
+    0x022D :  BANK  @0x1        
+    0x022E :  MOV   0x24, A     
+    0x022F :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 637)
+  ;if(g_lock_flag == 0x00)
+    0x0230 :  BANK  @0x0        
+    0x0231 :  MOV   0x33, 0x33  
+    0x0232 :  JBS   0x03, 2     
+    0x0233 :  JMP   0x244       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 639)
+  ;led_status(1,1,1);
+    0x0234 :  MOV   A, @0x01    
+    0x0235 :  BANK  @0x1        
+    0x0236 :  MOV   0x29, A     
+    0x0237 :  MOV   A, @0x01    
+    0x0238 :  MOV   0x28, A     
+    0x0239 :  MOV   A, @0x01    
+    0x023A :  MOV   0x27, A     
+    0x023B :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 640)
+  ;led_blink(3);
+    0x023C :  MOV   A, @0x03    
+    0x023D :  BANK  @0x1        
+    0x023E :  MOV   0x25, A     
+    0x023F :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 641)
+  ;g_lock_flag = 0x01;
+    0x0240 :  MOV   A, @0x01    
+    0x0241 :  BANK  @0x0        
+    0x0242 :  MOV   0x33, A     
+    0x0243 :  JMP   0x252       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 645)
+  ;led_status(1,1,1);
+    0x0244 :  MOV   A, @0x01    
+    0x0245 :  BANK  @0x1        
+    0x0246 :  MOV   0x29, A     
+    0x0247 :  MOV   A, @0x01    
+    0x0248 :  MOV   0x28, A     
+    0x0249 :  MOV   A, @0x01    
+    0x024A :  MOV   0x27, A     
+    0x024B :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 646)
+  ;led_blink(5);
+    0x024C :  MOV   A, @0x05    
+    0x024D :  BANK  @0x1        
+    0x024E :  MOV   0x25, A     
+    0x024F :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 647)
+  ;g_lock_flag = 0x00;
+    0x0250 :  BANK  @0x0        
+    0x0251 :  CLR   0x33        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 650)
+  ;g_keypress_times  =  0;
+    0x0252 :  BANK  @0x0        
+    0x0253 :  CLR   0x2E        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 385)
+  ;while(1)
+    0x0254 :  JMP   0x025       
+    0x0255 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 134)
+  ;switch(IntVecIdx)
+    0x0256 :  MOV   0x10, A     
+    0x0257 :  BANK  @0x1        
+    0x0258 :  MOV   A, 0x11     
+    0x0259 :  MOV   0x2B, A     
+    0x025A :  MOV   A, 0x10     
+    0x025B :  MOV   0x11, A     
+    0x025C :  MOV   A, 0x11     
+    0x025D :  XOR   A, @0x16    
+    0x025E :  JBC   0x03, 2     
+    0x025F :  JMP   0x265       
+    0x0260 :  MOV   A, 0x11     
+    0x0261 :  XOR   A, @0x19    
+    0x0262 :  JBC   0x03, 2     
+    0x0263 :  JMP   0x28D       
+    0x0264 :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 137)
+  ;if (PWM2IF == 1)
+    0x0265 :  BC    0x04, 7     
+    0x0266 :  JBS   0x0F, 4     
+    0x0267 :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 139)
+  ;PWM2IF = 0;                 //清PWM2中断标志位
+    0x0268 :  BC    0x0F, 4     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 140)
+  ;g_time1ms_cnt++;
+    0x0269 :  BANK  @0x0        
+    0x026A :  INC   0x26        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 141)
+  ;if(g_time1ms_cnt == 50)
+    0x026B :  MOV   A, 0x26     
+    0x026C :  XOR   A, @0x32    
+    0x026D :  JBS   0x03, 2     
+    0x026E :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 143)
+  ;g_time1ms_cnt = 0;
+    0x026F :  CLR   0x26        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 144)
+  ;g_time50ms_flag = 1;
+    0x0270 :  MOV   A, @0x01    
+    0x0271 :  MOV   0x28, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 145)
+  ;g_time50ms_cnt++;
+    0x0272 :  INC   0x27        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 146)
+  ;if(g_time50ms_cnt == 4)
+    0x0273 :  MOV   A, 0x27     
+    0x0274 :  XOR   A, @0x04    
+    0x0275 :  JBS   0x03, 2     
+    0x0276 :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 148)
+  ;g_time50ms_cnt = 0;
+    0x0277 :  CLR   0x27        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 149)
+  ;g_time200ms_flag = 1;
+    0x0278 :  MOV   A, @0x01    
+    0x0279 :  MOV   0x2A, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 151)
+  ;if(g_time2s_start==1)
+    0x027A :  MOV   A, 0x35     
+    0x027B :  XOR   A, @0x01    
+    0x027C :  JBS   0x03, 2     
+    0x027D :  JMP   0x282       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 153)
+  ;g_time2s_start = 0;
+    0x027E :  CLR   0x35        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 154)
+  ;g_time200ms_cnt = 0;
+    0x027F :  CLR   0x29        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 155)
+  ;g_time2s_flag = 0;
+    0x0280 :  CLR   0x2B        
+    0x0281 :  JMP   0x284       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 159)
+  ;g_time200ms_cnt++;
+    0x0282 :  BANK  @0x0        
+    0x0283 :  INC   0x29        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 162)
+  ;if(g_time200ms_cnt == 10)
+    0x0284 :  BANK  @0x0        
+    0x0285 :  MOV   A, 0x29     
+    0x0286 :  XOR   A, @0x0A    
+    0x0287 :  JBS   0x03, 2     
+    0x0288 :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 164)
+  ;g_time200ms_cnt = 0;
+    0x0289 :  CLR   0x29        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 165)
+  ;g_time2s_flag = 1;
+    0x028A :  MOV   A, @0x01    
+    0x028B :  MOV   0x2B, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 170)
+  ;break;
+    0x028C :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 173)
+  ;if (DT1IF == 1)
+    0x028D :  BC    0x04, 7     
+    0x028E :  JBS   0x0F, 5     
+    0x028F :  JMP   0x29F       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 175)
+  ;delay_us(10);
+    0x0290 :  MOV   A, @0x0A    
+    0x0291 :  BANK  @0x0        
+    0x0292 :  MOV   0x3C, A     
+    0x0293 :  CALL  0x2A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 176)
+  ;if(g_keypress_maxtime < 200)
+    0x0294 :  MOV   A, @0xC8    
+    0x0295 :  BANK  @0x0        
+    0x0296 :  SUB   A, 0x2F     
+    0x0297 :  JBC   0x03, 0     
+    0x0298 :  JMP   0x29A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 178)
+  ;battery_load_volt_sample();
+    0x0299 :  CALL  0x2C2       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 181)
+  ;DT1IF = 0;                         //清PWM1中断标志位
+    0x029A :  BC    0x04, 7     
+    0x029B :  BC    0x0F, 5     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 183)
+  ;g_adc_flag = 1;
+    0x029C :  MOV   A, @0x01    
+    0x029D :  BANK  @0x0        
+    0x029E :  MOV   0x34, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 187)
+  ;}
+    0x029F :  BANK  @0x1        
+    0x02A0 :  MOV   A, 0x2B     
+    0x02A1 :  MOV   0x11, A     
+    0x02A2 :  RETI              
+    0x02A3 :  MOV   A, 0x11     
+    0x02A4 :  BANK  @0x0        
+    0x02A5 :  MOV   0x38, A     
+    0x02A6 :  MOV   A, 0x12     
+    0x02A7 :  MOV   0x39, A     
+    0x02A8 :  MOV   A, 0x13     
+    0x02A9 :  MOV   0x3A, A     
+    0x02AA :  MOV   A, 0x14     
+    0x02AB :  MOV   0x3B, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 72)
+  ;for (i = 0; i < count; i++)
+    0x02AC :  CLR   0x37        
+    0x02AD :  JMP   0x2B4       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 74)
+  ;NOP();
+    0x02AE :  NOP               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 75)
+  ;NOP();
+    0x02AF :  NOP               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 76)
+  ;NOP();
+    0x02B0 :  NOP               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 77)
+  ;NOP();
+    0x02B1 :  NOP               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 78)
+  ;}
+    0x02B2 :  BANK  @0x0        
+    0x02B3 :  INC   0x37        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 72)
+  ;for (i = 0; i < count; i++)
+    0x02B4 :  BANK  @0x0        
+    0x02B5 :  MOV   A, 0x3C     
+    0x02B6 :  SUB   A, 0x37     
+    0x02B7 :  JBS   0x03, 0     
+    0x02B8 :  JMP   0x2AE       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 79)
+  ;}
+    0x02B9 :  MOV   A, 0x38     
+    0x02BA :  MOV   0x11, A     
+    0x02BB :  MOV   A, 0x39     
+    0x02BC :  MOV   0x12, A     
+    0x02BD :  MOV   A, 0x3A     
+    0x02BE :  MOV   0x13, A     
+    0x02BF :  MOV   A, 0x3B     
+    0x02C0 :  MOV   0x14, A     
+    0x02C1 :  RET               
+    0x02C2 :  MOV   A, 0x11     
+    0x02C3 :  BANK  @0x1        
+    0x02C4 :  MOV   0x20, A     
+    0x02C5 :  MOV   A, 0x12     
+    0x02C6 :  MOV   0x21, A     
+    0x02C7 :  MOV   A, 0x13     
+    0x02C8 :  MOV   0x22, A     
+    0x02C9 :  MOV   A, 0x14     
+    0x02CA :  MOV   0x23, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 116)
+  ;ADIS2 = 1;          //选择ADC6输入口
+    0x02CB :  BC    0x04, 7     
+    0x02CC :  BS    0x09, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 117)
+  ;ADIS1 = 1;
+    0x02CD :  BS    0x09, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 118)
+  ;ADIS0 = 0;
+    0x02CE :  BC    0x09, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 120)
+  ;ADRUN = 1;
+    0x02CF :  BS    0x09, 4     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 121)
+  ;while(ADRUN == 1);
+    0x02D0 :  BC    0x04, 7     
+    0x02D1 :  JBC   0x09, 4     
+    0x02D2 :  JMP   0x2D0       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 123)
+  ;delay_us(3);
+    0x02D3 :  MOV   A, @0x03    
+    0x02D4 :  BANK  @0x0        
+    0x02D5 :  MOV   0x3C, A     
+    0x02D6 :  CALL  0x2A3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 125)
+  ;ADRUN = 1;
+    0x02D7 :  BC    0x04, 7     
+    0x02D8 :  BS    0x09, 4     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 126)
+  ;while(ADRUN == 1);
+    0x02D9 :  BC    0x04, 7     
+    0x02DA :  JBC   0x09, 4     
+    0x02DB :  JMP   0x2D9       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 128)
+  ;g_load_volt_h = ADDATA1H;
+    0x02DC :  MOV   A, 0x0C     
+    0x02DD :  BANK  @0x0        
+    0x02DE :  MOV   0x22, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 129)
+  ;g_load_volt_l = ADDATA1L;
+    0x02DF :  MOV   A, 0x0D     
+    0x02E0 :  MOV   0x21, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 130)
+  ;}
+    0x02E1 :  BANK  @0x1        
+    0x02E2 :  MOV   A, 0x20     
+    0x02E3 :  MOV   0x11, A     
+    0x02E4 :  MOV   A, 0x21     
+    0x02E5 :  MOV   0x12, A     
+    0x02E6 :  MOV   A, 0x22     
+    0x02E7 :  MOV   0x13, A     
+    0x02E8 :  MOV   A, 0x23     
+    0x02E9 :  MOV   0x14, A     
+    0x02EA :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 347)
+  ;WDTC();
+    0x02EB :  WDTC              
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 348)
+  ;DISI();
+    0x02EC :  DISI              
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 349)
+  ;SCR = 0X7F;       //选择4MHz,TIMER 选择主频
+    0x02ED :  MOV   A, @0x7F    
+    0x02EE :  BS    0x04, 7     
+    0x02EF :  MOV   0x0F, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 351)
+  ;clr_ram();
+    0x02F0 :  CALL  0x001       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 352)
+  ;gpio_init();
+    0x02F1 :  CALL  0x318       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 353)
+  ;adc_init();
+    0x02F2 :  CALL  0x322       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 355)
+  ;pwm_timer_init();
+    0x02F3 :  CALL  0x329       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 356)
+  ;pwm_set(MOS_OFF);
+    0x02F4 :  MOV   A, @0x9C    
+    0x02F5 :  BANK  @0x1        
+    0x02F6 :  MOV   0x24, A     
+    0x02F7 :  CALL  0x33A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 358)
+  ;g_led_occupied = 0;
+    0x02F8 :  BANK  @0x0        
+    0x02F9 :  BC    0x2C, 7     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 359)
+  ;led_status(1,1,1);
+    0x02FA :  MOV   A, @0x01    
+    0x02FB :  BANK  @0x1        
+    0x02FC :  MOV   0x29, A     
+    0x02FD :  MOV   A, @0x01    
+    0x02FE :  MOV   0x28, A     
+    0x02FF :  MOV   A, @0x01    
+    0x0300 :  MOV   0x27, A     
+    0x0301 :  CALL  0x340       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 360)
+  ;led_blink(3);
+    0x0302 :  MOV   A, @0x03    
+    0x0303 :  BANK  @0x1        
+    0x0304 :  MOV   0x25, A     
+    0x0305 :  CALL  0x35B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 362)
+  ;g_keyval = P50;
+    0x0306 :  MOV   A, @0x00    
+    0x0307 :  BC    0x04, 7     
+    0x0308 :  JBC   0x05, 0     
+    0x0309 :  ADD   A, @0x01    
+    0x030A :  BANK  @0x0        
+    0x030B :  MOV   0x25, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 364)
+  ;if(g_keyval == 0)
+    0x030C :  MOV   0x25, 0x25  
+    0x030D :  JBS   0x03, 2     
+    0x030E :  JMP   0x312       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 366)
+  ;g_next_state = 0x01;
+    0x030F :  MOV   A, @0x01    
+    0x0310 :  MOV   0x32, A     
+    0x0311 :  JMP   0x315       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 370)
+  ;g_next_state = 0x08;
+    0x0312 :  MOV   A, @0x08    
+    0x0313 :  BANK  @0x0        
+    0x0314 :  MOV   0x32, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 373)
+  ;g_fault_state = 0x00;
+    0x0315 :  BANK  @0x0        
+    0x0316 :  CLR   0x20        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 374)
+  ;}
+    0x0317 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 321)
+  ;P5CR = 0X21;        //P50,P55设为输入 ,P51设为输出
+    0x0318 :  MOV   A, @0x21    
+    0x0319 :  BC    0x03, 6     
+    0x031A :  IOW   0x5         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 322)
+  ;P5PHCR = 0XFC;      //P50,P51上拉
+    0x031B :  MOV   A, @0xFC    
+    0x031C :  IOW   0xD         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 323)
+  ;P51 = 0;            //默认蓝灯关
+    0x031D :  BC    0x04, 7     
+    0x031E :  BC    0x05, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 324)
+  ;P7CR = 0;
+    0x031F :  MOV   A, @0x00    
+    0x0320 :  IOW   0x7         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 325)
+  ;}
+    0x0321 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 329)
+  ;ADE5 = 1;           //P71/ADC5引脚作为ADC5输入口
+    0x0322 :  BC    0x04, 7     
+    0x0323 :  BS    0x08, 5     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 330)
+  ;ADE6 = 1;           //P55/ADC6引脚作为ADC6输入口
+    0x0324 :  BS    0x08, 6     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 332)
+  ;ADPD = 1;          //打开ADC电源
+    0x0325 :  BS    0x09, 3     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 334)
+  ;ADOC = 0x4;         //内部参考电压3V
+    0x0326 :  MOV   A, @0x04    
+    0x0327 :  MOV   0x0A, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 335)
+  ;}
+    0x0328 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 279)
+  ;P6CR = 0;           //P67设为输出
+    0x0329 :  MOV   A, @0x00    
+    0x032A :  BC    0x03, 6     
+    0x032B :  IOW   0x6         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 280)
+  ;TMRCON = 0X27;      //PWM1预分频比设为1：256,PWM2预分频比设为1：16
+    0x032C :  MOV   A, @0x27    
+    0x032D :  BS    0x04, 7     
+    0x032E :  MOV   0x08, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 281)
+  ;PWMCON = 0X01;      //使能PWM1输出口
+    0x032F :  MOV   A, @0x01    
+    0x0330 :  MOV   0x07, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 282)
+  ;PRD1 = 155;         //周期=1/4*(155+1)*256=10ms
+    0x0331 :  MOV   A, @0x9B    
+    0x0332 :  MOV   0x09, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 283)
+  ;PRD2 = 249;         //周期=1/4*(249+1)*16=1ms
+    0x0333 :  MOV   A, @0xF9    
+    0x0334 :  MOV   0x0A, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 284)
+  ;IMR = 0X30;         //使能PWM1占空比，PWM2周期中断
+    0x0335 :  MOV   A, @0x30    
+    0x0336 :  IOW   0xF         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 285)
+  ;T2EN = 1;           //PWM2定时开始
+    0x0337 :  BS    0x08, 7     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 286)
+  ;ENI();
+    0x0338 :  ENI               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 287)
+  ;}
+    0x0339 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 291)
+  ;DT1 = duty;
+    0x033A :  BANK  @0x1        
+    0x033B :  MOV   A, 0x24     
+    0x033C :  BS    0x04, 7     
+    0x033D :  MOV   0x0B, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 292)
+  ;T1EN = 1;
+    0x033E :  BS    0x08, 6     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 293)
+  ;}
+    0x033F :  RET               
+    0x0340 :  MOV   A, 0x11     
+    0x0341 :  BANK  @0x1        
+    0x0342 :  MOV   0x26, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 339)
+  ;g_led_r = red;
+    0x0343 :  MOV   A, 0x27     
+    0x0344 :  MOV   0x11, A     
+    0x0345 :  BANK  @0x0        
+    0x0346 :  BC    0x2C, 0     
+    0x0347 :  JBC   0x11, 0     
+    0x0348 :  BS    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 340)
+  ;g_led_g = green;
+    0x0349 :  BANK  @0x1        
+    0x034A :  MOV   A, 0x28     
+    0x034B :  MOV   0x11, A     
+    0x034C :  BANK  @0x0        
+    0x034D :  BC    0x2C, 1     
+    0x034E :  JBC   0x11, 0     
+    0x034F :  BS    0x2C, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 341)
+  ;g_led_b = blue;
+    0x0350 :  BANK  @0x1        
+    0x0351 :  MOV   A, 0x29     
+    0x0352 :  MOV   0x11, A     
+    0x0353 :  BANK  @0x0        
+    0x0354 :  BC    0x2C, 2     
+    0x0355 :  JBC   0x11, 0     
+    0x0356 :  BS    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 342)
+  ;}
+    0x0357 :  BANK  @0x1        
+    0x0358 :  MOV   A, 0x26     
+    0x0359 :  MOV   0x11, A     
+    0x035A :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 297)
+  ;if(g_led_occupied == 0)
+    0x035B :  BANK  @0x0        
+    0x035C :  JBC   0x2C, 7     
+    0x035D :  JMP   0x364       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 299)
+  ;g_led_onoff_status = 1;
+    0x035E :  BS    0x2C, 3     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 300)
+  ;g_led_occupied = 1;
+    0x035F :  BS    0x2C, 7     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 301)
+  ;g_led_light_times = times;
+    0x0360 :  BANK  @0x1        
+    0x0361 :  MOV   A, 0x25     
+    0x0362 :  BANK  @0x0        
+    0x0363 :  MOV   0x2D, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 306)
+  ;if(g_time200ms_flag == 1)
+    0x0364 :  BANK  @0x0        
+    0x0365 :  MOV   A, 0x2A     
+    0x0366 :  XOR   A, @0x01    
+    0x0367 :  JBS   0x03, 2     
+    0x0368 :  JMP   0x36B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 308)
+  ;g_time200ms_flag = 0;
+    0x0369 :  CLR   0x2A        
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 309)
+  ;led_disp();
+    0x036A :  CALL  0x374       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 311)
+  ;}while(g_led_light_times != 0);
+    0x036B :  BANK  @0x0        
+    0x036C :  MOV   0x2D, 0x2D  
+    0x036D :  JBS   0x03, 2     
+    0x036E :  JMP   0x364       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 313)
+  ;if(g_led_light_times == 0)
+    0x036F :  MOV   0x2D, 0x2D  
+    0x0370 :  JBS   0x03, 2     
+    0x0371 :  JMP   0x373       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 315)
+  ;g_led_occupied = 0;
+    0x0372 :  BC    0x2C, 7     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 317)
+  ;}
+    0x0373 :  RET               
+    0x0374 :  MOV   A, 0x11     
+    0x0375 :  BANK  @0x0        
+    0x0376 :  MOV   0x3F, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 201)
+  ;if(g_led_light_times >= 1)
+    0x0377 :  MOV   A, @0x01    
+    0x0378 :  SUB   A, 0x2D     
+    0x0379 :  JBS   0x03, 0     
+    0x037A :  JMP   0x38B       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 203)
+  ;if(g_led_onoff_status)
+    0x037B :  JBS   0x2C, 3     
+    0x037C :  JMP   0x385       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 205)
+  ;if(g_led_light_times != 0xff)
+    0x037D :  MOV   A, 0x2D     
+    0x037E :  XOR   A, @0xFF    
+    0x037F :  JBC   0x03, 2     
+    0x0380 :  JMP   0x382       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 207)
+  ;g_led_onoff_status = 0;
+    0x0381 :  BC    0x2C, 3     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 210)
+  ;g_led_onoff = 0;          //灯亮
+    0x0382 :  BANK  @0x0        
+    0x0383 :  CLR   0x30        
+    0x0384 :  JMP   0x38E       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 214)
+  ;g_led_onoff_status = 1;
+    0x0385 :  BANK  @0x0        
+    0x0386 :  BS    0x2C, 3     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 215)
+  ;g_led_onoff = 1;         //灯灭
+    0x0387 :  MOV   A, @0x01    
+    0x0388 :  MOV   0x30, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 216)
+  ;g_led_light_times--;
+    0x0389 :  DEC   0x2D        
+    0x038A :  JMP   0x38E       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 221)
+  ;g_led_onoff = 1;             //灯灭
+    0x038B :  MOV   A, @0x01    
+    0x038C :  BANK  @0x0        
+    0x038D :  MOV   0x30, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 224)
+  ;if(g_led_r)
+    0x038E :  BANK  @0x0        
+    0x038F :  JBS   0x2C, 0     
+    0x0390 :  JMP   0x398       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 226)
+  ;P70 = g_led_onoff;           //红灯
+    0x0391 :  MOV   A, 0x30     
+    0x0392 :  MOV   0x11, A     
+    0x0393 :  BC    0x04, 7     
+    0x0394 :  BC    0x07, 0     
+    0x0395 :  JBC   0x11, 0     
+    0x0396 :  BS    0x07, 0     
+    0x0397 :  JMP   0x39A       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 230)
+  ;P70 = 1;                    //没被控制就灭灯
+    0x0398 :  BC    0x04, 7     
+    0x0399 :  BS    0x07, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 233)
+  ;if(g_led_b)
+    0x039A :  BANK  @0x0        
+    0x039B :  JBS   0x2C, 2     
+    0x039C :  JMP   0x3A4       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 235)
+  ;P71 = g_led_onoff;          //蓝灯
+    0x039D :  MOV   A, 0x30     
+    0x039E :  MOV   0x11, A     
+    0x039F :  BC    0x04, 7     
+    0x03A0 :  BC    0x07, 1     
+    0x03A1 :  JBC   0x11, 0     
+    0x03A2 :  BS    0x07, 1     
+    0x03A3 :  JMP   0x3A6       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 239)
+  ;P71 = 1;                     //没被控制就灭灯
+    0x03A4 :  BC    0x04, 7     
+    0x03A5 :  BS    0x07, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 242)
+  ;if(g_led_g)
+    0x03A6 :  BANK  @0x0        
+    0x03A7 :  JBS   0x2C, 1     
+    0x03A8 :  JMP   0x3B1       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 244)
+  ;P51 = ~g_led_onoff;         //尾灯
+    0x03A9 :  MOV   A, 0x30     
+    0x03AA :  MOV   0x11, A     
+    0x03AB :  COM   0x11        
+    0x03AC :  BC    0x04, 7     
+    0x03AD :  BC    0x05, 1     
+    0x03AE :  JBC   0x11, 0     
+    0x03AF :  BS    0x05, 1     
+    0x03B0 :  JMP   0x3B3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 248)
+  ;P51 = 0;                     //没被控制就灭灯
+    0x03B1 :  BC    0x04, 7     
+    0x03B2 :  BC    0x05, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 250)
+  ;}
+    0x03B3 :  BANK  @0x0        
+    0x03B4 :  MOV   A, 0x3F     
+    0x03B5 :  MOV   0x11, A     
+    0x03B6 :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 254)
+  ;if(volt_sample < LOW_BAT_VOLT_TH)
+    0x03B7 :  MOV   A, @0x09    
+    0x03B8 :  BANK  @0x0        
+    0x03B9 :  SUB   A, 0x3E     
+    0x03BA :  JBS   0x03, 2     
+    0x03BB :  JMP   0x3BE       
+    0x03BC :  MOV   A, @0x55    
+    0x03BD :  SUB   A, 0x3D     
+    0x03BE :  JBC   0x03, 0     
+    0x03BF :  JMP   0x3C5       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 256)
+  ;g_led_r = 1;                  //红灯
+    0x03C0 :  BANK  @0x0        
+    0x03C1 :  BS    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 257)
+  ;g_led_b = 0;                  //蓝灯
+    0x03C2 :  BC    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 258)
+  ;g_led_g = 1;                  //尾灯
+    0x03C3 :  BS    0x2C, 1     
+    0x03C4 :  JMP   0x3D7       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 260)
+  ;else if(volt_sample < MID_BAT_VOLT_TH)
+    0x03C5 :  MOV   A, @0x0A    
+    0x03C6 :  BANK  @0x0        
+    0x03C7 :  SUB   A, 0x3E     
+    0x03C8 :  JBS   0x03, 2     
+    0x03C9 :  JMP   0x3CC       
+    0x03CA :  MOV   A, @0x22    
+    0x03CB :  SUB   A, 0x3D     
+    0x03CC :  JBC   0x03, 0     
+    0x03CD :  JMP   0x3D3       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 262)
+  ;g_led_r = 1;                  //红灯
+    0x03CE :  BANK  @0x0        
+    0x03CF :  BS    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 263)
+  ;g_led_b = 1;                  //蓝灯
+    0x03D0 :  BS    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 264)
+  ;g_led_g = 1;                  //尾灯
+    0x03D1 :  BS    0x2C, 1     
+    0x03D2 :  JMP   0x3D7       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 268)
+  ;g_led_r = 0;                  //红灯
+    0x03D3 :  BANK  @0x0        
+    0x03D4 :  BC    0x2C, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 269)
+  ;g_led_b = 1;                  //蓝灯
+    0x03D5 :  BS    0x2C, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 270)
+  ;g_led_g = 1;                  //尾灯
+    0x03D6 :  BS    0x2C, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 273)
+  ;g_led_onoff_status = 1;           //灯亮
+    0x03D7 :  BANK  @0x0        
+    0x03D8 :  BS    0x2C, 3     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 274)
+  ;g_led_light_times = 0xff;
+    0x03D9 :  MOV   A, @0xFF    
+    0x03DA :  MOV   0x2D, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 275)
+  ;}
+    0x03DB :  RET               
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 99)
+  ;P7CR = 0x01;
+    0x03DC :  MOV   A, @0x01    
+    0x03DD :  BC    0x03, 6     
+    0x03DE :  IOW   0x7         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 101)
+  ;ADIS2 = 1;          //选择ADC6输入口
+    0x03DF :  BC    0x04, 7     
+    0x03E0 :  BS    0x09, 2     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 102)
+  ;ADIS1 = 0;
+    0x03E1 :  BC    0x09, 1     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 103)
+  ;ADIS0 = 1;
+    0x03E2 :  BS    0x09, 0     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 105)
+  ;ADRUN = 1;
+    0x03E3 :  BS    0x09, 4     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 106)
+  ;while(ADRUN == 1);
+    0x03E4 :  BC    0x04, 7     
+    0x03E5 :  JBC   0x09, 4     
+    0x03E6 :  JMP   0x3E4       
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 107)
+  ;g_battery_volt_h = ADDATA1H;
+    0x03E7 :  MOV   A, 0x0C     
+    0x03E8 :  BANK  @0x0        
+    0x03E9 :  MOV   0x24, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 108)
+  ;g_battery_volt_l = ADDATA1L;
+    0x03EA :  MOV   A, 0x0D     
+    0x03EB :  MOV   0x23, A     
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 109)
+  ;P7CR = 0x00;
+    0x03EC :  MOV   A, @0x00    
+    0x03ED :  BC    0x03, 6     
+    0x03EE :  IOW   0x7         
+D:\Program Files (x86)\ELAN\eUIDE\V2_Plus\main.c (line 110)
+  ;}
+    0x03EF :  RET               
