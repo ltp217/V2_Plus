@@ -338,7 +338,7 @@ void calc_load_r(ushort load_n_volt, ushort load_p_volt)    //计算负载阻值
         g_load_n_p = load_p_volt - load_n_volt;
     }
     
-    g_load_n = load_n_volt * 10;                        //g_loadn_volt放大10倍,bb为ushort  0-65536 最大40960 (g_loadn_volt*6/4096)*10000=g_load_n
+    g_load_n = load_n_volt * 10;                        //g_loadn_volt放大10倍,g_load_n为ushort  0-65536 最大40960 (g_loadn_volt*6/4096)*10000=g_load_n
     g_load_r = g_load_n / g_load_n_p;                   //g_load_r = g_loadn_volt / (g_load_n_p * 50)  相当于 (g_load_n/g_load_n_p)*500 放大了500倍                
     ///////////////////////运行完上面那条语句之后 有时候会有时候不会  g_loadp_volt/g_loadn_volt的值就乱了;
 }
@@ -460,7 +460,7 @@ void main(void)
                         if (g_keypress_maxtime == 200)
                         {
                             pwm_set(MOS_OFF);                           
-                            led_blink(9);       //闪烁8次，避免初始状态灯亮时少一次状态
+                            led_blink(9);                  //闪烁8次，避免初始状态灯亮时少一次状态
                         }
                         
                         break;                                                   
@@ -470,8 +470,8 @@ void main(void)
                     while(g_adc_flag == 0);
                     
                     calc_load_r(g_loadn_volt, g_loadp_volt);
-                    
-                    if(g_load_r < 100)                         //检测雾化器短路故障
+                   
+                    if(g_load_r < 100)                     //检测雾化器短路故障
                     {
                         pwm_set(MOS_OFF);
                         g_fault_state = 0x40;
@@ -482,7 +482,7 @@ void main(void)
                     
                     if((g_loadn_volt - g_loadp_volt < LOAD_KAILU_VOTL) || (g_loadp_volt - g_loadn_volt < LOAD_KAILU_VOTL))
                     {
-                        pwm_set(MOS_OFF);                       //空载检测
+                        pwm_set(MOS_OFF);                    //空载检测
                         g_fault_state = 0x08;
                         g_next_state = 0x02;
                     }
@@ -573,7 +573,7 @@ void main(void)
             case 0x04:                          //充电模式 
                 pwm_set(MOS_OFF);
                 
-                if(g_time200ms_flag == 1)           //采集电池电压
+                if(g_time200ms_flag == 1)       //采集电池电压
                 {
                     g_time200ms_flag = 0;
                     battery_volt_sample();
@@ -593,8 +593,8 @@ void main(void)
                     else if((g_battery_volt < CHARGE_BAT_VOLT_TH) && (P53 == 1))   //充电过程中充电器被拔掉
                     {
                         //关mos 灭灯 待机
-                        g_led_b = 0;
-                        g_led_g = 0;
+                        P70 = 1;
+                        P71 = 1;
                         g_next_state = 0x08;
                     }
                 }
@@ -604,8 +604,6 @@ void main(void)
                 pwm_set(MOS_OFF);
                 g_led_r = 0;
                 g_led_g = 0;
-                P5CR = 0X28;                            //PORT5设为输入 P53 P55  0输出  1输入 0010 1000
-                P5PDCR = 0XD7;                          //PORTW5设为下拉  1101 0111
                 ISR1 = 0X02;                            //使能PORT5状态改变唤醒功能
                 PORT5 = PORT5;                          //读取PORT5状态
                 IDLE = 0;
@@ -639,7 +637,7 @@ void main(void)
             break;                
         }
             
-        if(((g_time50ms_flag == 1)||(g_cur_state == 0x08)))           //key处理
+        if(((g_time50ms_flag == 1)||(g_cur_state == 0x08))&&(g_cur_state != 0x04))           //key处理
         {
             g_time50ms_flag = 0;
             g_keyval = P55;
@@ -692,7 +690,7 @@ void main(void)
                 }
             }
             
-            if((temp_keyval == 0)&&(g_keyval == 1) )
+            if((temp_keyval == 0)&&(g_keyval == 1))
             {     
                 if( g_keypress_maxtime < 40)
                 {
@@ -715,7 +713,7 @@ void main(void)
             led_disp();           
         }   
 
-        if(g_time2s_flag == 1)
+        if((g_time2s_flag == 1)&&(g_cur_state != 0x04))
         {
             g_time2s_flag = 0;
             if(g_keypress_times >= 5)
