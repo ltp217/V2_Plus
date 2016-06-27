@@ -6,12 +6,15 @@
 #define ENI()                 _asm{eni}
 #define SLEP()                _asm{slep}
 //R4/(R3+R4) = 10/(10+10) = 0.5
+#define OPEN_LOW_BAT_VOLT     0x019                                 //(0.0366V/2)/3V*4096=25
+#define SHORT_LOW_BAT_VOLT    0x044                                 //(0.1V/2)/3V*4096=68
 #define VERY2_LOW_BAT_VOLT    0x555                                 //(2V/2)/3V*4096=1365
 #define LOW_BAT_VOLT_TH       0x955                                 //(3.5V/2)/3V*4096=2389
 #define MID_BAT_VOLT_TH       0xA22                                 //(3.8V/2)/3V*4096=2594
 #define LOW_BAT_VOLT          0x8CD                                 //(3.3V/2)/3V*4096=2253
 #define VERY_LOW_BAT_VOLT     0x800                                 //(3.0V/2)/3V*4096=2048
-#define CHARGE_BAT_VOLT_TH    0xB33                                 //(4.20V/2)/3V*4096=2867
+#define CHARGE_BAT_VOLT_TH    0xB11                                 //(4.15V/2)/3V*4096=2833
+#define CHARGE_BAT_VOLT_TL    0xAEF                                 //(4.10V/2)/3V*4096=2799
 #define MOS_ON                1                                     //打开MOS
 #define MOS_OFF               156                                   //关闭MOS
 #define VBAT37                0x9DD                                 //(3.7V/2)/3V*4096=2525  --100
@@ -225,7 +228,7 @@ void _intcall ALLInt(void) @ int
                                 g_time2s_cnt++;
                             }
                             
-                            if(g_time2s_cnt == 10)//150
+                            if(g_time2s_cnt == 150)//10 调试用
                             {
                                 g_time2s_cnt = 0;
                                 g_time5min_flag = 1;
@@ -335,21 +338,21 @@ void led_ctrl_by_voltage(ushort volt_sample)        //不同电压区间灯闪亮
 
 void calc_load_r(ushort load_n_volt, ushort load_p_volt)    //计算负载阻值
 {
-	if((load_n_volt > VERY2_LOW_BAT_VOLT) && (load_p_volt > VERY2_LOW_BAT_VOLT))
-	{
-		if (load_n_volt > load_p_volt)
-		{
-			g_load_n_p = load_n_volt - load_p_volt;        //修正误差
-		}
-		else 
-		{
-			g_load_n_p = load_p_volt - load_n_volt;
-		}
-		
-		g_load_n = load_n_volt * 10;                        //g_loadn_volt放大10倍,g_load_n为ushort  0-65536 最大40960 (g_loadn_volt*6/4096)*10000=g_load_n
-		g_load_r = g_load_n / g_load_n_p;                   //g_load_r = g_loadn_volt / (g_load_n_p * 50)  相当于 (g_load_n/g_load_n_p)*500 放大了500倍                
-		///////////////////////运行完上面那条语句之后 有时候会有时候不会  g_loadp_volt/g_loadn_volt的值就乱了;
-	}
+    if((load_n_volt > VERY2_LOW_BAT_VOLT) && (load_p_volt > VERY2_LOW_BAT_VOLT))
+    {
+        if (load_n_volt > load_p_volt)
+        {
+            g_load_n_p = load_n_volt - load_p_volt;        //修正误差
+        }
+        else 
+        {
+            g_load_n_p = load_p_volt - load_n_volt;
+        }
+        
+        g_load_n = load_n_volt * 10;                        //g_loadn_volt放大10倍,g_load_n为ushort  0-65536 最大40960 (g_loadn_volt*6/4096)*10000=g_load_n
+        g_load_r = g_load_n / g_load_n_p;                   //g_load_r = g_loadn_volt / (g_load_n_p * 50)  相当于 (g_load_n/g_load_n_p)*500 放大了500倍                
+        ///////////////////////运行完上面那条语句之后 有时候会有时候不会  g_loadp_volt/g_loadn_volt的值就乱了;
+    }
 }
 
 void pwm_timer_init(void)
@@ -432,14 +435,14 @@ void mcu_init(void)   //MCU初始化
     led_status(1,1);
     led_blink(3);
 
-	if(P53 == 0)
-	{
-		g_next_state = 0x01;
-	}
-	else
-	{
-		g_next_state = 0x08;
-	}
+    if(P53 == 0)
+    {
+        g_next_state = 0x01;
+    }
+    else
+    {
+        g_next_state = 0x08;
+    }
     
     g_fault_state = 0x00;
 }
@@ -472,16 +475,19 @@ void main(void)
                         
                         break;                                                   
                     } 
-                    					
+                                        
                     calc_load_r(g_loadn_volt, g_loadp_volt);
                    
-                    if(g_load_r < 100)                     //检测雾化器短路故障，放大了500倍
+                    if((g_load_r < 100)  || (g_loadn_volt < SHORT_LOW_BAT_VOLT))                     //检测雾化器短路故障，放大了500倍
                     {
                         pwm_set(MOS_OFF);
                         g_fault_state = 0x40;
                         g_next_state = 0x02;
+                        
+                        break;
                     }
-                    else if(g_load_r > 2500)              //大于5欧姆，认为是空载状态            
+					
+                    if(g_load_n_p < OPEN_LOW_BAT_VOLT)              //认为是空载状态            
                     {
                         pwm_set(MOS_OFF);                    
                         g_fault_state = 0x08;
@@ -527,20 +533,23 @@ void main(void)
                     {                  
                         g_next_state = 0x01;
                         
-                        if(P53 == 0)                          //由充电器唤醒，充电器正常
+                        if(g_battery_volt > VERY2_LOW_BAT_VOLT)
                         {
-                            if(g_charge_flag == 0)
+                            if((P53 == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                          //由充电器唤醒，充电器正常
                             {
-                                g_fault_state = 0x20;
-                                g_next_state = 0x02;
-                                g_lock_flag = 0x00;
+                                if(g_charge_flag == 0)
+                                {
+                                    g_fault_state = 0x20;
+                                    g_next_state = 0x02;
+                                    g_lock_flag = 0x00;
+                                }
+                                else 
+                                {
+                                    g_next_state = 0x04;
+                                }
+                                
+                                break;
                             }
-                            else 
-                            {
-                                g_next_state = 0x04;
-                            }
-                            
-                            break;
                         } 
                     }
                     //释放按键灭灯
@@ -597,32 +606,32 @@ void main(void)
                     battery_volt_sample();
                 }                    
                 
-				if(g_battery_volt > VERY2_LOW_BAT_VOLT)
-				{
-					if(P53 == 0)             
-					{
-						g_charge_flag = 1;
-						led_ctrl_by_voltage(g_battery_volt);                       //正在充电的时候，根据电池电压值进行亮灯
-					}
-					else
-					{
-						if(g_battery_volt >= CHARGE_BAT_VOLT_TH)    //过充保护
-						{
-						   g_charge_flag = 1;
-							g_fault_state = 0x02;
-							g_next_state = 0x02;
-						}
-						else  //充电过程中充电器被拔掉
-						{
-							//关mos 灭灯 待机
-							P70 = 1;
-							P71 = 1;
-							g_charge_flag = 0;
-							g_next_state = 0x08;
-						}
-					}
-				}
-                				
+                if(g_battery_volt > VERY2_LOW_BAT_VOLT)
+                {
+                    if(P53 == 0)             
+                    {
+                        g_charge_flag = 1;
+                        led_ctrl_by_voltage(g_battery_volt);                       //正在充电的时候，根据电池电压值进行亮灯
+                    }
+                    else
+                    {
+                        if(g_battery_volt >= CHARGE_BAT_VOLT_TH)    //过充保护
+                        {
+                            g_charge_flag = 1;
+                            g_fault_state = 0x02;
+                            g_next_state = 0x02;
+                        }
+                        else  //充电过程中充电器被拔掉
+                        {
+                            //关mos 灭灯 待机
+                            P70 = 1;
+                            P71 = 1;
+                            g_charge_flag = 0;
+                            g_next_state = 0x08;
+                        }
+                    }
+                }
+                                
             break;
     
             case 0x08:                                  //睡眠模式
@@ -642,14 +651,17 @@ void main(void)
                 g_time50ms_cnt = 0;
                 g_time200ms_cnt = 0;
                 g_led_light_times = 0;
-                g_keypress_maxtime = 0;      
+                g_keypress_maxtime = 0;   
+                
+                battery_volt_sample();
+                delay_us(20);   
 
                 if(P55 == 0)                            //由按键唤醒，进入吸烟状态 
                 {
                     g_next_state = 0x01;
                 }
                 
-                if(P53 == 0)                            //由充电唤醒，进入充电状态
+                if((P53 == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                            //由充电唤醒，进入充电状态
                 {
                     if(g_charge_flag == 0)
                     {   
@@ -692,10 +704,11 @@ void main(void)
                     if ((g_cur_state == 0x08)||(g_cur_state == 0x01))
                     {
                         pwm_set(MOS_ON);
+                        delay_us(20);
                         
-						g_adc_flag = 0;
-						while(g_adc_flag == 0);
-						
+                        g_adc_flag = 0;
+                        while(g_adc_flag == 0);
+                        
                         battery_volt_sample();
                                                 
                         if(g_battery_volt < VERY_LOW_BAT_VOLT)        //检测电池超低压故障,小于3V时
