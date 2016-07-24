@@ -486,7 +486,7 @@ void main(void)
                         
                         break;
                     }
-					
+                    
                     if(g_load_n_p < OPEN_LOW_BAT_VOLT)              //认为是空载状态            
                     {
                         pwm_set(MOS_OFF);                    
@@ -681,7 +681,7 @@ void main(void)
             break;                
         }
             
-        if(((g_time50ms_flag == 1)||(g_cur_state == 0x08))&&(g_cur_state != 0x04))           //key处理
+        if(((g_time50ms_flag == 1)||(g_cur_state == 0x08))&&(g_next_state != 0x04)&&(g_next_state != 0x02))           //key处理
         {
             g_time50ms_flag = 0;
             g_keyval = P55;
@@ -698,17 +698,11 @@ void main(void)
                     g_keypress_maxtime++;
                 }
                 
-                //采集第一次按键按下时的电池电压，并且只有当前为正常状态或唤醒状态才采集
+                //采集第一次按键按下时的电池电压，并且只有当前为正常状态或唤醒状态才采集，先检测电池电压，再检测负载电压
                 if ((g_lock_flag == 0x00) && (g_keypress_maxtime == 1))
                 {
                     if ((g_cur_state == 0x08)||(g_cur_state == 0x01))
-                    {
-                        pwm_set(MOS_ON);
-                        delay_us(20);
-                        
-                        g_adc_flag = 0;
-                        while(g_adc_flag == 0);
-                        
+                    {   
                         battery_volt_sample();
                                                 
                         if(g_battery_volt < VERY_LOW_BAT_VOLT)        //检测电池超低压故障,小于3V时
@@ -721,6 +715,7 @@ void main(void)
                         else if(g_battery_volt < LOW_BAT_VOLT)        //检测电池低压故障 
                         {
                             pwm_set(MOS_OFF);
+                            g_charge_flag = 0x00;
                             g_fault_state = 0x04;
                             g_next_state = 0x02;
                         } 
@@ -728,6 +723,12 @@ void main(void)
                         {
                             led_ctrl_by_voltage(g_battery_volt);     
                         }
+                        
+                        pwm_set(MOS_ON);
+                        delay_us(20);
+                        
+                        g_adc_flag = 0;
+                        while(g_adc_flag == 0);
                     }
                 }
                 
@@ -759,7 +760,7 @@ void main(void)
             led_disp();           
         }   
 
-        if((g_time2s_flag == 1)&&(g_cur_state != 0x04))
+        if((g_time2s_flag == 1)&&(g_next_state != 0x04)&&(g_next_state != 0x02))
         {
             g_time2s_flag = 0;
             if(g_keypress_times >= 5)
@@ -782,6 +783,6 @@ void main(void)
                 }
             }
             g_keypress_times  =  0;
-        }
+        }  
     }
 }
