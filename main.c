@@ -647,9 +647,11 @@ void main(void)
                 SLEP();                                 //进入睡眠
                 delay_us(20);
                 
+                //计数清零
                 g_time1ms_cnt = 0;
                 g_time50ms_cnt = 0;
                 g_time200ms_cnt = 0;
+                g_time2s_cnt = 0;
                 g_led_light_times = 0;
                 g_keypress_maxtime = 0;   
                 
