@@ -704,6 +704,7 @@ void main(void)
                     if ((g_cur_state == 0x08)||(g_cur_state == 0x01))
                     {   
                         battery_volt_sample();
+                        delay_us(20); 
                                                 
                         if(g_battery_volt < VERY_LOW_BAT_VOLT)        //检测电池超低压故障,小于3V时
                         {
@@ -721,14 +722,15 @@ void main(void)
                         } 
                         else
                         {
-                            led_ctrl_by_voltage(g_battery_volt);     
+                            led_ctrl_by_voltage(g_battery_volt);
+                            
+                            //电池电压正常后才采集负载的电压
+                            pwm_set(MOS_ON);
+                            delay_us(20);
+                            
+                            g_adc_flag = 0;
+                            while(g_adc_flag == 0);                            
                         }
-                        
-                        pwm_set(MOS_ON);
-                        delay_us(20);
-                        
-                        g_adc_flag = 0;
-                        while(g_adc_flag == 0);
                     }
                 }
                 
