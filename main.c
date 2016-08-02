@@ -77,7 +77,7 @@ uchar temp_keyval                @0X3D:bank 0;
 
 ushort g_load_n_p                @0X20:bank 1;
 ushort g_load_n                  @0X22:bank 1;
-uchar  g_charge_flag             @0X24:bank 1;
+uchar  g_reg_val                 @0X24:bank 1;
 
 extern int IntVecIdx; //occupied 0x10:rpage 0
 //---------
@@ -435,14 +435,7 @@ void mcu_init(void)   //MCU初始化
     led_status(1,1);
     led_blink(3);
 
-    if(P53 == 0)
-    {
-        g_next_state = 0x01;
-    }
-    else
-    {
-        g_next_state = 0x08;
-    }
+    g_next_state = 0x08;
     
     g_fault_state = 0x00;
 }
@@ -450,11 +443,10 @@ void mcu_init(void)   //MCU初始化
 void main(void)
 {    
     mcu_init();
-    g_time2s_flag=0;
-    g_time5min_flag=0;
+    g_time2s_flag = 0;
+    g_time5min_flag = 0;
     temp_keyval = 1;
     g_lock_flag = 0x00;
-    g_charge_flag = 0;
   
     while(1)
     {
@@ -478,7 +470,7 @@ void main(void)
                                         
                     calc_load_r(g_loadn_volt, g_loadp_volt);
                    
-                    if((g_load_r < 100)  || (g_loadn_volt < SHORT_LOW_BAT_VOLT))                     //检测雾化器短路故障，放大了500倍
+                    if((g_load_r < 100) || (g_loadn_volt < SHORT_LOW_BAT_VOLT))                     //检测雾化器短路故障，放大了500倍
                     {
                         pwm_set(MOS_OFF);
                         g_fault_state = 0x40;
@@ -535,23 +527,18 @@ void main(void)
                         
                         if(g_battery_volt > VERY2_LOW_BAT_VOLT)
                         {
-                            if((P53 == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                          //由充电器唤醒，充电器正常
+                            g_reg_val = P53;
+                            if((g_reg_val == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                          //由充电器唤醒，充电器正常
                             {
-                                if(g_charge_flag == 0)
-                                {
-                                    g_fault_state = 0x20;
-                                    g_next_state = 0x02;
-                                    g_lock_flag = 0x00;
-                                }
-                                else 
-                                {
-                                    g_next_state = 0x04;
-                                }
+                                g_fault_state = 0x20;
+                                g_next_state = 0x02;
+                                g_lock_flag = 0x00;
                                 
                                 break;
                             }
                         } 
                     }
+                    
                     //释放按键灭灯
                     g_led_r = 0;
                     g_led_g = 0;
@@ -577,8 +564,12 @@ void main(void)
                     led_status(1,0);
                     led_blink(5);
                     g_next_state = 0x08;
-                }   
-                else if(g_fault_state==0x20)      //过渡进入充电状态        
+                }
+                else if(g_fault_state == 0x10)     //充满电之后再拔插入充电器进入待机状态        
+                {
+                    g_next_state = 0x08;
+                }                
+                else if(g_fault_state == 0x20)      //过渡进入充电状态        
                 {
                     led_status(1,1);
                     led_blink(3);
@@ -608,16 +599,15 @@ void main(void)
                 
                 if(g_battery_volt > VERY2_LOW_BAT_VOLT)
                 {
-                    if(P53 == 0)             
+                    g_reg_val = P53;
+                    if(g_reg_val == 0)             
                     {
-                        g_charge_flag = 1;
-                        led_ctrl_by_voltage(g_battery_volt);                       //正在充电的时候，根据电池电压值进行亮灯
+                        led_ctrl_by_voltage(g_battery_volt);        //正在充电的时候，根据电池电压值进行亮灯
                     }
                     else
                     {
                         if(g_battery_volt >= CHARGE_BAT_VOLT_TH)    //过充保护
                         {
-                            g_charge_flag = 1;
                             g_fault_state = 0x02;
                             g_next_state = 0x02;
                         }
@@ -626,7 +616,6 @@ void main(void)
                             //关mos 灭灯 待机
                             P70 = 1;
                             P71 = 1;
-                            g_charge_flag = 0;
                             g_next_state = 0x08;
                         }
                     }
@@ -658,24 +647,28 @@ void main(void)
                 battery_volt_sample();
                 delay_us(20);   
 
-                if(P55 == 0)                            //由按键唤醒，进入吸烟状态 
-                {
-                    g_next_state = 0x01;
-                }
+                g_reg_val = P55;
                 
-                if((P53 == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                            //由充电唤醒，进入充电状态
+                if(g_reg_val == 0)                            //由按键唤醒，进入吸烟状态 
                 {
-                    if(g_charge_flag == 0)
-                    {   
+                    g_next_state = 0x01;    
+                }
+                else
+                {
+                    g_reg_val = P53;
+                    if((g_reg_val == 0) && (g_battery_volt < CHARGE_BAT_VOLT_TL))                            //由充电唤醒，进入充电状态
+                    {    
                         g_fault_state = 0x20;
                         g_next_state = 0x02;
                         g_lock_flag = 0x00;
                     }
-                    else 
+                    else
                     {
-                        g_next_state = 0x04;
+                        g_fault_state = 0x10;
+                        g_next_state = 0x02;
                     }
-                }
+                 }   
+
               break;
     
             default:
@@ -703,22 +696,20 @@ void main(void)
                 //采集第一次按键按下时的电池电压，并且只有当前为正常状态或唤醒状态才采集，先检测电池电压，再检测负载电压
                 if ((g_lock_flag == 0x00) && (g_keypress_maxtime == 1))
                 {
-                    if ((g_cur_state == 0x08)||(g_cur_state == 0x01))
+                    if ((g_cur_state == 0x08) || (g_cur_state == 0x01))
                     {   
                         battery_volt_sample();
-                        delay_us(20); 
-                                                
+                        delay_us(20);
+
                         if(g_battery_volt < VERY_LOW_BAT_VOLT)        //检测电池超低压故障,小于3V时
                         {
                             pwm_set(MOS_OFF);
                             g_lock_flag = 0x01;                       //进入到lock状态
-                            g_charge_flag = 0x00;
                             g_next_state = 0x08;
                         } 
                         else if(g_battery_volt < LOW_BAT_VOLT)        //检测电池低压故障 
                         {
                             pwm_set(MOS_OFF);
-                            g_charge_flag = 0x00;
                             g_fault_state = 0x04;
                             g_next_state = 0x02;
                         } 
@@ -731,7 +722,7 @@ void main(void)
                             delay_us(20);
                             
                             g_adc_flag = 0;
-                            while(g_adc_flag == 0);                            
+                            while(g_adc_flag == 0); 
                         }
                     }
                 }
@@ -776,7 +767,6 @@ void main(void)
                     led_status(1,1);
                     led_blink(3);
                     g_lock_flag = 0x01;
-                    g_charge_flag = 0x00;
                 }
                 else
                 {
