@@ -435,8 +435,18 @@ void mcu_init(void)   //MCU初始化
     led_status(1,1);
     led_blink(3);
 
-    g_next_state = 0x08;
-    
+    g_reg_val = P53;
+    if(g_reg_val == 0)                          //由充电器唤醒，充电器正常
+    {
+        g_fault_state = 0x20;
+        g_next_state = 0x02;
+        g_lock_flag = 0x00;
+    }
+    else
+    {
+       g_next_state = 0x08;
+    }
+  
     g_fault_state = 0x00;
 }
 
@@ -641,6 +651,7 @@ void main(void)
                 g_time50ms_cnt = 0;
                 g_time200ms_cnt = 0;
                 g_time2s_cnt = 0;
+                g_time5min_flag = 0;
                 g_led_light_times = 0;
                 g_keypress_maxtime = 0;   
                 
